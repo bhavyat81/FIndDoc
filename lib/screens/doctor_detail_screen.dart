@@ -63,7 +63,7 @@ class DoctorDetailScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                    backgroundColor: Colors.white.withOpacity(0.2),
                     child: Text(
                       doctor.gender == 'female' ? '👩‍⚕️' : '👨‍⚕️',
                       style: const TextStyle(fontSize: 42),

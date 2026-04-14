@@ -56,7 +56,7 @@ class EmergencyScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _sectionHeader('Important Helplines'),
             ...(_helplines.map(
-              (h) => _helpllineTile(h['icon']!, h['name']!, h['number']!),
+              (h) => _helplineTile(h['icon']!, h['name']!, h['number']!),
             )),
 
             const SizedBox(height: 16),
@@ -165,7 +165,7 @@ class EmergencyScreen extends StatelessWidget {
     );
   }
 
-  Widget _helpllineTile(String emoji, String name, String number) {
+  Widget _helplineTile(String emoji, String name, String number) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       shape:
