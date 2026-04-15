@@ -1,6 +1,8 @@
 # FindDoc – Find the Right Doctor Near You in Vadodara 🏥
 
-**FindDoc** is a cross-platform Flutter application (Android + iOS) that helps users in **Vadodara** find doctors, hospitals, clinics, and emergency services quickly.
+**FindDoc** is a cross-platform **Expo (React Native)** app that helps users in **Vadodara** find doctors, hospitals, clinics, and emergency services instantly — no build errors, no codesign issues.
+
+> **Test on your iPhone in 30 seconds:** `npx expo start` → scan QR code with your camera 📱
 
 ---
 
@@ -12,32 +14,51 @@
 - 👨‍⚕️ **Doctor Profiles** – Degrees, experience, languages, consultation timings
 - 📞 **Click-to-Call** – One tap to call the clinic
 - 🗺️ **Google Maps Directions** – Opens navigation directly
-- 🔖 **Save Doctors** – Bookmark your preferred doctors (persisted locally)
+- 🔖 **Save Doctors** – Bookmark your preferred doctors (persisted with AsyncStorage)
 - 🚨 **Emergency Screen** – 24x7 hospitals + helplines (108, 100, 101)
-- 🏠 **Profile Screen** – Language toggle, dark mode setting
+- 🏠 **Profile Screen** – City & app info
 
 ---
 
-## Screenshots
-
-> _(Screenshots will be added after the first build)_
-
----
-
-## How to Run
+## Quick Start
 
 ```bash
-# Install dependencies
-flutter pub get
+# 1. Install dependencies
+npm install
 
-# Run on connected device / emulator
-flutter run
+# 2. Start Expo dev server
+npx expo start
 
-# Build APK (Android)
-flutter build apk
+# 3. On your iPhone:
+#    - Open the Camera app
+#    - Scan the QR code shown in your terminal
+#    - FindDoc opens instantly! ✅
+```
 
-# Build IPA (iOS)
-flutter build ios
+**No Xcode, no codesign, no Android Studio required for testing.**
+
+---
+
+## Install on Physical Device
+
+Install the **Expo Go** app from the App Store (iPhone) or Play Store (Android), then scan the QR code after running `npx expo start`.
+
+---
+
+## Build for Production
+
+```bash
+# Install EAS CLI
+npm install -g eas-cli
+
+# Login
+eas login
+
+# Build for iOS
+eas build --platform ios
+
+# Build for Android
+eas build --platform android
 ```
 
 ---
@@ -45,45 +66,45 @@ flutter build ios
 ## Project Structure
 
 ```
-lib/
-├── main.dart                    # App entry point
-├── models/                      # Data models
-│   ├── area.dart
-│   ├── city.dart
-│   ├── doctor.dart
-│   ├── doctor_facility.dart
-│   ├── facility.dart
-│   ├── speciality.dart
-│   └── time_slot.dart
-├── data/                        # Mock data for Vadodara
-│   ├── areas.dart               # 17 Vadodara areas
-│   ├── doctors.dart             # 33+ doctors with DoctorFacility mappings
-│   ├── facilities.dart          # 18+ hospitals/clinics/labs
-│   └── specialities.dart       # 10 specialities with keyword maps
-├── screens/                     # All app screens
-│   ├── home_screen.dart
-│   ├── area_detail_screen.dart
-│   ├── facility_detail_screen.dart
-│   ├── doctor_detail_screen.dart
-│   ├── search_results_screen.dart
-│   ├── saved_screen.dart
-│   ├── profile_screen.dart
-│   └── emergency_screen.dart
-├── providers/
-│   └── saved_provider.dart      # Provider for saved doctors state
-├── services/
-│   ├── search_service.dart      # Keyword → speciality → doctor search
-│   ├── location_service.dart    # Mock location (Vadodara centre)
-│   ├── maps_service.dart        # Google Maps URL launcher
-│   ├── call_service.dart        # tel: scheme launcher
-│   ├── distance_service.dart    # Haversine distance calculation
-│   ├── saved_service.dart       # SharedPreferences persistence
-│   └── timing_utils.dart        # Open/closed status, timing display
-└── widgets/
-    ├── facility_card.dart
-    ├── doctor_card.dart
-    ├── area_card.dart
-    └── speciality_card.dart
+app/
+├── _layout.tsx                  # Root layout (SavedContext provider)
+├── (tabs)/
+│   ├── _layout.tsx              # Bottom tab navigation
+│   ├── index.tsx                # Home screen (search, areas, specialities)
+│   ├── saved.tsx                # Saved doctors
+│   └── profile.tsx             # Profile & app info
+├── doctor/[id].tsx              # Doctor detail screen
+├── facility/[id].tsx            # Facility detail screen
+├── area/[id].tsx                # Area detail screen (filter by type)
+├── search/[query].tsx           # Search results
+└── emergency.tsx                # Emergency helplines & hospitals
+
+components/
+├── DoctorCard.tsx
+├── FacilityCard.tsx
+├── AreaCard.tsx
+└── SpecialityCard.tsx
+
+data/
+├── doctors.ts                   # 33+ doctors + DoctorFacility mappings
+├── facilities.ts                # 18+ hospitals/clinics/labs
+├── areas.ts                     # 17 Vadodara areas
+└── specialities.ts              # 10 specialities with keyword maps
+
+services/
+├── searchService.ts             # Keyword → speciality → doctor search
+├── distanceService.ts           # Haversine formula
+├── locationService.ts           # Mock location (Vadodara centre)
+├── savedService.ts              # AsyncStorage persistence
+├── callService.ts               # tel: scheme launcher
+├── mapsService.ts               # Google Maps URL launcher
+└── timingUtils.ts               # Open/closed status, timing display
+
+contexts/
+└── SavedContext.tsx             # React Context for bookmarks
+
+constants/
+└── theme.ts                     # Teal color theme + spacing/radius
 ```
 
 ---
@@ -92,11 +113,12 @@ lib/
 
 | Technology | Purpose |
 |---|---|
-| **Flutter** | Cross-platform UI framework |
-| **Dart** | Programming language |
-| **Provider** | State management |
-| **url_launcher** | Phone calls & Google Maps links |
-| **shared_preferences** | Local persistence for saved doctors |
+| **Expo (React Native)** | Cross-platform mobile framework |
+| **TypeScript** | Type-safe JavaScript |
+| **Expo Router** | File-based navigation |
+| **AsyncStorage** | Local persistence for saved doctors |
+| **React Native Linking** | Phone calls & Google Maps links |
+| **React Context** | State management for saved doctors |
 
 ---
 
@@ -110,7 +132,6 @@ lib/
   - Dhiraj Hospital / SBKS (Waghodia Road)
   - Sunshine Global Hospitals (Old Padra Road)
   - Sir Sayajirao General Hospital (Sayajigunj)
-  - And many more…
 
 - **33+ doctors** across 10 specialities with Indian names, degrees, languages
 
@@ -129,8 +150,6 @@ lib/
 - [ ] Online appointment booking
 - [ ] Multi-city support (Surat, Ahmedabad, …)
 - [ ] Patient reviews & ratings
-- [ ] Online / telemedicine consultations
-- [ ] Pharmacy & blood bank locator
 - [ ] Gujarati language support
 
 ---
