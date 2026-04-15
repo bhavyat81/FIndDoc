@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "FindDoc",
+    "slug": "finddoc",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#008080"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.finddoc.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#008080"
+      },
+      "package": "com.finddoc.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "finddoc",
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
